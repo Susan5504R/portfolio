@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sarah Sagri - Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0A192F; /* Deep Navy */
+            --primary-text: #CCD6F6; /* Light Slate */
+            --secondary-text: #8892B0; /* Slate */
+            --accent-color: #64FFDA; /* Neon Cyan */
+            --accent-hover: rgba(100, 255, 218, 0.1);
+            --card-bg: #112240; /* Lighter Navy */
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--primary-text);
+            background-image: 
+                linear-gradient(rgba(10, 25, 47, 0.95), rgba(10, 25, 47, 0.95)),
+                url('https://www.transparenttextures.com/patterns/cubes.png');
+        }
+        h1, h2, h3 {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+        }
+        /* Typing effect styles */
+        .typing-container {
+            min-height: 100px;
+        }
+        .typed-text {
+            color: var(--accent-color);
+        }
+        .typed-cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.2em;
+            background-color: var(--accent-color);
+            margin-left: 4px;
+            animation: blink 0.7s infinite;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+        .btn-primary {
+            color: var(--accent-color);
+            background-color: transparent;
+            border: 1px solid var(--accent-color);
+            border-radius: 4px;
+            padding: 0.75rem 1.5rem;
+            transition: background-color 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: var(--accent-hover);
+        }
+        #cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent-color);
+            border-radius: 50%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0;
+            transition: transform 0.2s ease-out, opacity 0.3s ease-in-out;
+            transform: translate(-50%, -50%);
+        }
+
+        body:hover #cursor-dot {
+            opacity: 1;
+        }
+        /* Add these styles for the Experience Timeline */
+.timeline-item {
+    position: relative;
+    padding-left: 2.5rem; /* Space for the dot and line */
+}
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: 10px; /* Aligns dot with the line */
+    top: 1.25rem;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: var(--accent-color);
+    border: 2px solid var(--bg-color);
+    z-index: 10;
+}
+@media (min-width: 768px) { /* md screens */
+    .timeline-item {
+        padding-left: 0;
+        width: 50%;
+        padding-left: 2rem;
+    }
+    .timeline-item:nth-child(odd) {
+        padding-left: 0;
+        padding-right: 2rem;
+        margin-left: 50%;
+        text-align: left;
+    }
+    .timeline-item:nth-child(even) {
+        margin-left: 0;
+        padding-left: 0;
+        padding-right: 2rem;
+        text-align: right;
+        width: 50%;
+    }
+    .timeline-item:nth-child(even) .timeline-content {
+         margin-left: auto;
+    }
+     .timeline-item:nth-child(even)::before {
+        left: -6px;
+    }
+    .timeline-item:nth-child(odd)::before {
+        left: auto;
+        right: -6px;
+    }
+}
+        .card-bg {
+            background-color: var(--card-bg);
+            border: 1px solid #1d2d50;
+            box-shadow: 0 10px 30px -15px rgba(2,12,27,0.7);
+        }
+        /* For scroll animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .active-nav-link {
+            color: var(--accent-color);
+            font-weight: 700;
+        }
+        /* Numbered headings */
+        .numbered-heading {
+            display: flex;
+            align-items: center;
+            font-size: 2rem;
+            color: var(--primary-text);
+        }
+        .numbered-heading::before {
+            content: "0" counter(section) ".";
+            counter-increment: section;
+            margin-right: 10px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1.5rem;
+            color: var(--accent-color);
+        }
+        /* Circular skill progress bar */
+        .skill-circle {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: conic-gradient(var(--accent-color) 0deg, var(--card-bg) 0deg);
+            transition: background 1.5s ease-out;
+        }
+        .skill-circle::before {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-color: var(--bg-color);
+            border-radius: 50%;
+        }
+        .skill-circle .skill-content {
+            z-index: 1;
+            text-align: center;
+        }
+        .skill-name {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        .skill-percent {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+        
+        footer a, 
+        .fixed.left-0 a, 
+        .fixed.right-0 a:not(.font-rajdhani) {
+            padding: 8px;
+            border-radius: 50%;
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+        }
+
+footer a:hover, 
+.fixed.left-0 a:hover,
+.fixed.right-0 a:not(.font-rajdhani):hover {
+    background-color: var(--accent-hover); /* Uses the accent color with transparency */
+}
+    </style>
+</head>
+<body class="antialiased" style="counter-reset: section;">
+<div id="cursor-dot"></div>
+<div id="particles-js" class="fixed top-0 left-0 w-full h-full -z-10"></div>
+    <header id="header" class="fixed top-0 left-0 right-0 z-50 bg-slate-900/80 backdrop-blur-sm shadow-md">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-white tracking-wider font-rajdhani border-2 border-accent-color px-2 py-1" style="color: var(--accent-color);">SS</a>
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="#about" class="text-primary-text hover:text-accent-color transition duration-300">About</a>
+                <a href="#skills" class="text-primary-text hover:text-accent-color transition duration-300">Skills</a>
+                <a href="#projects" class="text-primary-text hover:text-accent-color transition duration-300">Projects</a>
+                <a href="#contact" class="text-primary-text hover:text-accent-color transition duration-300">Contact</a>
+                <a href="C:\Users\mazar\Desktop\Portfolio\sarah_cv.docx" download class="btn-primary">Resume</a>
+            </nav>
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-button" class="md:hidden text-accent-color focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
+            <a href="#about" class="block py-2 text-primary-text hover:text-accent-color">About</a>
+            <a href="#skills" class="block py-2 text-primary-text hover:text-accent-color">Skills</a>
+            <a href="#projects" class="block py-2 text-primary-text hover:text-accent-color">Projects</a>
+            <a href="#contact" class="block py-2 text-primary-text hover:text-accent-color">Contact</a>
+            <a href="C:\Users\mazar\Desktop\Portfolio\sarah_cv.docx" download class="block mt-2 text-center btn-primary">Download Resume</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 pt-24 md:pt-32">
+
+        <!-- Hero Section -->
+        <section id="home" class="min-h-[80vh] flex flex-col justify-center">
+            <div class="max-w-4xl">
+                <p class="text-lg md:text-xl text-accent-color font-medium mb-4 reveal">Hi, my name is</p>
+                <h1 class="text-5xl md:text-7xl lg:text-8xl tracking-tight text-primary-text mb-2 reveal" style="transition-delay: 100ms;">Sarah Sagri.</h1>
+                <div class="typing-container reveal" style="transition-delay: 200ms;">
+                    <h2 class="text-4xl md:text-6xl lg:text-7xl tracking-tight text-secondary-text mb-8">
+                        I am a <span id="typed-text" class="typed-text"></span><span class="typed-cursor"></span>
+                    </h2>
+                </div>
+                <p class="max-w-2xl text-lg md:text-xl text-secondary-text mb-10 reveal" style="transition-delay: 300ms;">
+                    I'm a passionate developer specializing in creating modern, responsive, and user-friendly digital experiences. I turn complex problems into elegant, simple solutions.
+                </p>
+                <div class="reveal" style="transition-delay: 400ms;">
+                    <a href="#projects" class="btn-primary text-lg">
+                        View My Work
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-20 lg:py-32">
+             <h2 class="numbered-heading mb-8 reveal">About Me</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-12 items-center">
+                <div class="lg:col-span-3 reveal">
+                    <div class="space-y-4 text-secondary-text text-lg">
+                        <p>
+                            Hello! I'm Sarah, a developer with a knack for building beautiful and functional websites and applications. My journey into programming has started recently, and since then, I've been hooked on the thrill of bringing ideas to life through code.
+                        </p>
+                        <p>
+                            I specialize in front-end development, crafting responsive and engaging user interfaces using technologies like HTML, CSS, JavaScript, and React. I'm also exploring back-end development with Node.js and Express to create full-stack applications.
+                    </div>
+                </div>
+                <div class="lg:col-span-2 flex justify-center lg:justify-end reveal" style="transition-delay: 200ms;">
+                    <div class="relative w-64 h-64 md:w-80 md:h-80 group">
+                        <img class="rounded-md w-full h-full object-cover z-10 relative" src="profile_image.png" alt="A photo of John Doe">
+                        <div class="absolute inset-0 border-2 border-accent-color rounded-md transition-transform duration-300 group-hover:translate-x-3 group-hover:translate-y-3 -z-0 top-4 left-4"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    <section id="experience" class="py-20 lg:py-32">
+        <h2 class="numbered-heading mb-12 text-center justify-center reveal">Where I've Worked</h2>
+        <div class="max-w-3xl mx-auto relative">
+            <!-- The vertical timeline bar -->
+            <div class="absolute left-4 md:left-1/2 w-0.5 h-full bg-slate-700"></div>
+
+        <!-- Job 1 -->
+              <div class="timeline-item reveal mb-12">
+                <div class="timeline-content card-bg p-6 rounded-md shadow-lg">
+                    <h3 class="text-xl text-primary-text mb-1">Member <span class="text-accent-color">@ Google Developer Group</span></h3>
+                    <p class="text-secondary-text text-sm mb-4">September 2025 - Present</p>
+                    <ul class="space-y-2 text-secondary-text list-disc list-inside">
+                        <li>Organized and contributed to tech-focused events and peer learning sessions, helping students explore Google technologies, web development, and career-oriented skills.</li>
+                        <li>Worked with a variety of different languages, platforms, frameworks, and content management systems.</li>
+                        <li>Collaborated with team members to manage community engagement, streamline event workflows, and support hands-on workshops that improved technical participation across campus.</li>
+                    </ul>
+                </div>
+            </div>
+
+        <!-- Job 2 -->
+        <div class="timeline-item reveal mb-12">
+            <div class="timeline-content card-bg p-6 rounded-md shadow-lg">
+                <h3 class="text-xl text-primary-text mb-1">Executive <span class="text-accent-color">@ Club Of Professionals</span></h3>
+                <p class="text-secondary-text text-sm mb-4">September 2025 - Present</p>
+                <ul class="space-y-2 text-secondary-text list-disc list-inside">
+                    <li>Helped organize professional development events and workshops.</li>
+                    <li>Collaborated with members to enhance networking opportunities and career growth initiatives.</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="py-20 lg:py-32">
+            <h2 class="numbered-heading mb-12 text-center justify-center reveal">My Skills</h2>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-x-8 gap-y-12 justify-items-center">
+                <!-- EDIT YOUR SKILLS & PERCENTAGES HERE -->
+                <div class="skill-item reveal" data-percent="90">
+                    <div class="skill-circle">
+                        <div class="skill-content">
+                            <div class="skill-name">JavaScript</div>
+                            <div class="skill-percent">0%</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="skill-item reveal" data-percent="90 " style="transition-delay: 100ms;">
+                    <div class="skill-circle">
+                        <div class="skill-content">
+                            <div class="skill-name">React</div>
+                            <div class="skill-percent">0%</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="skill-item reveal" data-percent="80" style="transition-delay: 200ms;">
+                    <div class="skill-circle">
+                        <div class="skill-content">
+                            <div class="skill-name">Node.js</div>
+                            <div class="skill-percent">0%</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="skill-item reveal" data-percent="90" style="transition-delay: 200ms;">
+                    <div class="skill-circle">
+                        <div class="skill-content">
+                            <div class="skill-name">SpaCy</div>
+                            <div class="skill-percent">0%</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="skill-item reveal" data-percent="75" style="transition-delay: 200ms;">
+                    <div class="skill-circle">
+                        <div class="skill-content">
+                            <div class="skill-name">TensorFlow</div>
+                            <div class="skill-percent">0%</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="skill-item reveal" data-percent="60" style="transition-delay: 200ms;">
+                    <div class="skill-circle">
+                        <div class="skill-content">
+                            <div class="skill-name">PyTorch</div>
+                            <div class="skill-percent">0%</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="skill-item reveal" data-percent="75" style="transition-delay: 300ms;">
+                    <div class="skill-circle">
+                        <div class="skill-content">
+                            <div class="skill-name">Python</div>
+                            <div class="skill-percent">0%</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="skill-item reveal" data-percent="70" style="transition-delay: 400ms;">
+                    <div class="skill-circle">
+                        <div class="skill-content">
+                            <div class="skill-name">SQL</div>
+                            <div class="skill-percent">0%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="py-20 lg:py-32">
+            <h2 class="numbered-heading mb-12 text-center justify-center reveal">Things I've Built</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+
+                <!-- Project 1 -->
+                <!-- REPLACE your existing project card with this -->
+                <div class="card-bg rounded-md shadow-lg group hover:-translate-y-2 transition-all duration-300 overflow-hidden reveal">
+                <!-- Image container -->
+                <a href="https://movie-pulse-tau.vercel.app/" target="_blank" class="block h-48 relative">
+                <!-- Your project image goes here -->
+                <img src="Movie.png" alt="Project One Preview" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
+                <div class="absolute inset-0 bg-slate-900/50 group-hover:bg-slate-900/30 transition-all duration-300"></div>
+                </a>
+    <div class="p-6">
+        <div class="flex justify-between items-center mb-2">
+            <h3 class="text-xl text-primary-text">MoviePulse</h3>
+            <div class="flex space-x-4">
+                <a href="#" target="_blank" class="text-secondary-text hover:text-accent-color transition duration-300"><svg class="w-6 h-6" ...>...</svg></a>
+                <a href="#" target="_blank" class="text-secondary-text hover:text-accent-color transition duration-300"><svg class="w-6 h-6" ...>...</svg></a>
+            </div>
+        </div>
+        <p class="text-secondary-text mb-4">Built a full-stack Movie Web Application integrating REST APIs, responsive UI, and optimized state management to provide real-time movie search, ratings, and recommendations.</p>
+        <div class="flex flex-wrap gap-x-4 gap-y-2 text-sm font-rajdhani">
+            <span class="text-accent-color">React</span>
+            <span class="text-accent-color">Node.js</span>
+            <span class="text-accent-color">Tailwind CSS</span>
+            </div>
+        </div>
+</div>
+
+<div class="card-bg rounded-md shadow-lg group hover:-translate-y-2 transition-all duration-300 overflow-hidden reveal">
+                <!-- Image container -->
+                <a href="https://nutri-track-one.vercel.app/" target="_blank" class="block h-48 relative">
+                <!-- Your project image goes here -->
+                <img src="NutriTrack.png" alt="NutriTrack One Preview" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
+                <div class="absolute inset-0 bg-slate-900/50 group-hover:bg-slate-900/30 transition-all duration-300"></div>
+                </a>
+    <div class="p-6">
+        <div class="flex justify-between items-center mb-2">
+            <h3 class="text-xl text-primary-text">NutriTrack</h3>
+            <div class="flex space-x-4">
+                <a href="#" target="_blank" class="text-secondary-text hover:text-accent-color transition duration-300"><svg class="w-6 h-6" ...>...</svg></a>
+                <a href="#" target="_blank" class="text-secondary-text hover:text-accent-color transition duration-300"><svg class="w-6 h-6" ...>...</svg></a>
+            </div>
+        </div>
+        <p class="text-secondary-text mb-4">Built a full-stack Nutrition Tracking Web Application integrating REST APIs, responsive UI, and optimized state management to provide real-time nutrition tracking, meal planning, and health insights.</p>
+        <div class="flex flex-wrap gap-x-4 gap-y-2 text-sm font-rajdhani">
+            <span class="text-accent-color">React</span>
+            <span class="text-accent-color">Node.js</span>
+            <span class="text-accent-color">Tailwind CSS</span>
+            </div>
+        </div>
+</div>
+
+        <div class="card-bg rounded-md shadow-lg group hover:-translate-y-2 transition-all duration-300 overflow-hidden reveal">
+                <!-- Image container -->
+                <a href="https://fit-hub-weld.vercel.app/" target="_blank" class="block h-48 relative">
+                <!-- Your project image goes here -->
+                <img src="fithub.png" alt="Project One Preview" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
+                <div class="absolute inset-0 bg-slate-900/50 group-hover:bg-slate-900/30 transition-all duration-300"></div>
+                </a>
+    <div class="p-6">
+        <div class="flex justify-between items-center mb-2">
+            <h3 class="text-xl text-primary-text">FitHub</h3>
+            <div class="flex space-x-4">
+                <a href="#" target="_blank" class="text-secondary-text hover:text-accent-color transition duration-300"><svg class="w-6 h-6" ...>...</svg></a>
+                <a href="#" target="_blank" class="text-secondary-text hover:text-accent-color transition duration-300"><svg class="w-6 h-6" ...>...</svg></a>
+            </div>
+        </div>
+        <p class="text-secondary-text mb-4">Developed a Fitness Web App that displays exercises with proper form, step-by-step instructions, and muscle group categorization to help users train safely and effectively.</p>
+        <div class="flex flex-wrap gap-x-4 gap-y-2 text-sm font-rajdhani">
+            <span class="text-accent-color">React</span>
+            <span class="text-accent-color">Node.js</span>
+            <span class="text-accent-color">Tailwind CSS</span>
+            </div>
+        </div>
+</div>           
+</section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-20 lg:py-32 text-center">
+             <div class="max-w-xl mx-auto">
+                <h2 class="numbered-heading mb-4 text-center justify-center reveal">What's Next?</h2>
+                <h3 class="text-4xl md:text-5xl text-primary-text mb-4 reveal" style="transition-delay: 100ms;">Get In Touch</h3>
+                <p class="text-secondary-text text-lg mb-8 reveal" style="transition-delay: 200ms;">
+                    My inbox is always open. Whether you have a question, a project proposal, or just want to say hi, I'll get back to you! Feel free to reach out about opportunities or collaborations.
+                </p>
+                <div class="reveal" style="transition-delay: 300ms;">
+                    <a href="sarahsagri02@gmail.com" class="btn-primary text-lg">
+                        Say Hello
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+
+<div class="hidden lg:flex fixed left-0 bottom-0 z-50 px-10">
+    <ul class="flex flex-col items-center text-secondary-text after:content-[''] after:block after:w-px after:h-24 after:bg-secondary-text after:mt-4">
+        
+        <!-- GitHub Icon -->
+        <li class="mb-6">
+            <a href="https://github.com/Susan5504R" target="_blank" class="block hover:text-accent-color hover:-translate-y-1 transition-all duration-300" aria-label="GitHub">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+            </a>
+        </li>
+        
+        <!-- LinkedIn Icon -->
+        <li class="mb-6">
+            <a href="https://www.linkedin.com/in/sarah-sagri02-iiit-allahabad" target="_blank" class="block hover:text-accent-color hover:-translate-y-1 transition-all duration-300" aria-label="LinkedIn">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.25 6.5 1.75 1.75 0 016.5 8.25zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"></path></svg>
+            </a>
+        </li>
+
+        <!-- Email Icon -->
+        <li>
+            <a href="mailto:sarahsagri02@gmail.com" class="block hover:text-accent-color hover:-translate-y-1 transition-all duration-300" aria-label="Email">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+            </a>
+        </li>
+
+    </ul>
+</div>
+
+<div class="hidden lg:flex fixed right-0 bottom-0 z-50 px-10">
+     <div class="flex flex-col items-center text-secondary-text after:content-[''] after:block after:w-px after:h-24 after:bg-secondary-text after:mt-4">
+        <a href="mailto:sarahsagri02@gmail.com" class="font-rajdhani tracking-widest [writing-mode:vertical-rl] text-sm hover:text-accent-color hover:-translate-y-1 transition-all duration-300">
+            sarahsagri02@gmail.com
+        </a>
+     </div>
+</div>
+
+    <!-- Footer -->
+    <footer class="py-8">
+        <div class="container mx-auto px-6 text-center text-secondary-text">
+            <div class="flex justify-center space-x-6 mb-4 lg:hidden">
+                <a href="https://github.com/Susan5504R" target="_blank" class="hover:text-accent-color transition duration-300" aria-label="GitHub"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg></a>
+                <a href="https://www.linkedin.com/in/sarah-sagri02-iiit-allahabad" target="_blank" class="hover:text-accent-color transition duration-300" aria-label="LinkedIn"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.25 6.5 1.75 1.75 0 016.5 8.25zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"></path></svg></a>
+                 <!-- ADD THIS BLOCK INSTEAD -->
+                <a href="mailto:sarahsagri02@gmail.com" class="hover:text-accent-color transition duration-300" aria-label="Email">
+    
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                </svg>
+                </a>
+            </div>
+            <p>Designed & Built by Sarah Sagri</p>
+        </div>
+    </footer>
+
+    <script>
+        
+        const typedTextSpan = document.getElementById("typed-text");
+        const textArray = ["Frontend Developer", "Backend Developer", "Machine Learning Engineer"];
+        const typingDelay = 100;
+        const erasingDelay = 50;
+        const newTextDelay = 2000; // Delay between current and next text
+        let textArrayIndex = 0;
+        let charIndex = 0;
+
+        function type() {
+            if (charIndex < textArray[textArrayIndex].length) {
+                typedTextSpan.textContent += textArray[textArrayIndex].charAt(charIndex);
+                charIndex++;
+                setTimeout(type, typingDelay);
+            } else {
+                setTimeout(erase, newTextDelay);
+            }
+        }
+
+        function erase() {
+            if (charIndex > 0) {
+                typedTextSpan.textContent = textArray[textArrayIndex].substring(0, charIndex - 1);
+                charIndex--;
+                setTimeout(erase, erasingDelay);
+            } else {
+                textArrayIndex++;
+                if (textArrayIndex >= textArray.length) textArrayIndex = 0;
+                setTimeout(type, typingDelay + 1100);
+            }
+        }
+        document.addEventListener("DOMContentLoaded", function() { 
+            setTimeout(type, newTextDelay + 250);
+        });
+
+        // --- Mobile Menu ---
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+        });
+
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    const headerOffset = document.getElementById('header').offsetHeight;
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                    window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+                }
+            });
+        });
+
+        
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+        
+        // --- Skill Circle Animations ---
+        const skillObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const skillItem = entry.target;
+                    const percent = skillItem.dataset.percent;
+                    const circle = skillItem.querySelector('.skill-circle');
+                    const percentText = skillItem.querySelector('.skill-percent');
+                    
+                    circle.style.background = `conic-gradient(var(--accent-color) ${percent * 3.6}deg, var(--card-bg) 0deg)`;
+
+                    let currentPercent = 0;
+                    const interval = setInterval(() => {
+                        if (currentPercent >= percent) {
+                            clearInterval(interval);
+                        } else {
+                            currentPercent++;
+                            percentText.textContent = `${currentPercent}%`;
+                        }
+                    }, 20); // Adjust speed of number count up
+
+                    observer.unobserve(skillItem); // Animate only once
+                }
+            });
+        }, { threshold: 0.5 });
+        document.querySelectorAll('.skill-item').forEach(el => skillObserver.observe(el));
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('header nav a');
+
+const observerOptions = {
+  root: null,
+  rootMargin: '0px',
+  threshold: 0.4 
+};
+
+const sectionObserver = new IntersectionObserver((entries, observer) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(link => {
+        link.classList.remove('active-nav-link');
+        if (link.getAttribute('href').substring(1) === entry.target.id) {
+          link.classList.add('active-nav-link');
+        }
+      });
+    }
+  });
+}, observerOptions);
+
+sections.forEach(section => {
+  sectionObserver.observe(section);
+});
+    </script>
+
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<script>
+  particlesJS("particles-js", {
+    "particles": {
+      "number": { "value": 60, "density": { "enable": true, "value_area": 800 } },
+      "color": { "value": "#64FFDA" },
+      "shape": { "type": "circle" },
+      "opacity": { "value": 0.3, "random": false },
+      "size": { "value": 3, "random": true },
+      "line_linked": { "enable": true, "distance": 150, "color": "#8892B0", "opacity": 0.2, "width": 1 }, // Use secondary text color
+      "move": { "enable": true, "speed": 1, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false }
+    },
+    "interactivity": {
+      "detect_on": "canvas",
+      "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" }, "resize": true },
+      "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 0.5 } }, "push": { "particles_nb": 4 } }
+    },
+    "retina_detect": true
+  });
+</script>
+<script>
+    const cursorDot = document.getElementById('cursor-dot');
+    window.addEventListener('mousemove', (e) => {
+        const posX = e.clientX;
+        const posY = e.clientY;
+        cursorDot.style.transform = `translate(${posX}px, ${posY}px)`;
+    });
+</script>
+
+</body>
+</html>
+
